@@ -39,20 +39,35 @@ function deleteTransaction(index) {
 // Filter Transactions
 const searchInput = document.getElementById("search");
 const filterCategory = document.getElementById("filter-category");
+const filterDate = document.getElementById("filter-date");
+const filterMonth = document.getElementById("filter-month");
 
 function filterTransactions() {
   const searchTerm = searchInput.value.toLowerCase();
   const category = filterCategory.value;
+  const selectedDate = filterDate.value;
+  const selectedMonth = filterMonth.value;
 
   const filteredTransactions = transactions.filter((transaction) => {
     const matchesCategory =
       category === "all" ||
       (category === "income" && transaction.amount > 0) ||
       (category === "expense" && transaction.amount < 0);
+
     const matchesSearch = transaction.description
       .toLowerCase()
       .includes(searchTerm);
-    return matchesCategory && matchesSearch;
+
+    const transactionDate = new Date(transaction.date);
+    const matchesDate = selectedDate
+      ? transactionDate.toISOString().split("T")[0] === selectedDate
+      : true;
+
+    const matchesMonth = selectedMonth
+      ? transactionDate.getMonth() + 1 === parseInt(selectedMonth)
+      : true;
+
+    return matchesCategory && matchesSearch && matchesDate && matchesMonth;
   });
 
   renderTransactions(filteredTransactions);
@@ -149,6 +164,8 @@ function renderMonthlyChart() {
 form.addEventListener("submit", addTransaction);
 searchInput.addEventListener("input", filterTransactions);
 filterCategory.addEventListener("change", filterTransactions);
+filterDate.addEventListener("input", filterTransactions);
+filterMonth.addEventListener("change", filterTransactions);
 
 // Initial Render
 updateUI();
