@@ -81,13 +81,18 @@ function renderTransactions(filteredTransactions) {
 // Render Monthly Chart
 function renderMonthlyChart() {
   const currentYear = new Date().getFullYear();
-  const monthlyData = Array(12).fill(0);
+  const incomeData = Array(12).fill(0); // Untuk menyimpan pemasukan per bulan
+  const expenseData = Array(12).fill(0); // Untuk menyimpan pengeluaran per bulan
 
   transactions.forEach((transaction) => {
     const transactionDate = new Date(transaction.date);
     if (transactionDate.getFullYear() === currentYear) {
       const month = transactionDate.getMonth();
-      monthlyData[month] += transaction.amount;
+      if (transaction.amount > 0) {
+        incomeData[month] += transaction.amount; // Jika pemasukan
+      } else {
+        expenseData[month] += transaction.amount; // Jika pengeluaran
+      }
     }
   });
 
@@ -98,8 +103,12 @@ function renderMonthlyChart() {
     },
     series: [
       {
-        name: "Total Transaksi",
-        data: monthlyData,
+        name: "Pemasukan",
+        data: incomeData,
+      },
+      {
+        name: "Pengeluaran",
+        data: expenseData,
       },
     ],
     xaxis: {
