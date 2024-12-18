@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catatan Keuangan Harian</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app-container">
+      <header class="app-header">
+        <h1>Catatan Keuangan Harian</h1>
+      </header>
+
+      <main class="app-main">
+        <section class="balance-section">
+          <h2>Total Saldo</h2>
+          <div id="balance" class="balance">Rp 0</div>
+        </section>
+
+        <section class="form-section">
+          <form id="finance-form" class="finance-form">
+            <input
+              type="text"
+              id="description"
+              placeholder="Deskripsi"
+              required
+            />
+            <input
+              type="number"
+              id="amount"
+              placeholder="Jumlah (positif/negatif)"
+              required
+            />
+            <button type="submit">Tambah</button>
+          </form>
+        </section>
+
+        <section class="transactions-section">
+          <h2>Transaksi</h2>
+          <ul id="transactions" class="transactions-list"></ul>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p>&copy; 2024 Catatan Keuangan Harian</p>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
