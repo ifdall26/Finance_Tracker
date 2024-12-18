@@ -15,7 +15,15 @@ body {
 
 /* Header Styles */
 .app-header {
-  background-color: #4caf50;
+  display: flex;
+  flex-direction: row;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
   color: white;
   padding: 1rem;
   text-align: center;
@@ -49,7 +57,7 @@ body {
 .balance {
   font-size: 2rem;
   font-weight: bold;
-  color: #4caf50;
+  color: #090979;
   margin-top: 0.5rem;
 }
 
@@ -65,7 +73,7 @@ body {
 .finance-form input {
   padding: 0.8rem;
   font-size: 1rem;
-  border: 1px solid #ddd;
+  border: 0.5px solid #00d4ff;
   border-radius: 5px;
   width: 100%;
   max-width: 300px;
@@ -73,7 +81,8 @@ body {
 
 .finance-form button {
   padding: 0.8rem 2rem;
-  background-color: #4caf50;
+  background: rgb(2, 0, 36);
+  background-color: #090979;
   color: white;
   border: none;
   border-radius: 5px;
@@ -83,7 +92,7 @@ body {
 }
 
 .finance-form button:hover {
-  background-color: #45a049;
+  background-color: #020024;
 }
 
 /* Transactions List */
@@ -116,7 +125,7 @@ body {
 }
 
 .transactions-list li.income {
-  border-left: 5px solid #4caf50;
+  border-left: 5px solid #090979;
 }
 
 .transactions-list li.expense {
@@ -140,7 +149,13 @@ body {
 .app-footer {
   text-align: center;
   padding: 1rem;
-  background-color: #4caf50;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
   color: white;
 }
 
@@ -151,6 +166,10 @@ body {
 
 /* Responsive Styles */
 @media (max-width: 768px) {
+  .app-header h1 {
+    font-size: 23px;
+    line-height: 50px;
+  }
   .finance-form {
     flex-direction: column;
     align-items: center;
