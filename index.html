@@ -12,19 +12,24 @@
   </head>
   <body>
     <div class="app-container">
+      <!-- header -->
       <header class="app-header">
         <div class="logo">
           <img src="logo.png" alt="logo" width="50px" />
         </div>
         <h1>Easy Money</h1>
       </header>
+      <!-- end of header -->
 
       <main class="app-main">
+        <!-- balance -->
         <section class="balance-section">
           <h2>Total Saldo</h2>
           <div id="balance" class="balance">Rp 0</div>
         </section>
+        <!-- end of balance -->
 
+        <!-- form input -->
         <section class="form-section">
           <form id="finance-form" class="finance-form">
             <input
@@ -42,11 +47,22 @@
             <button type="submit">Tambah</button>
           </form>
         </section>
+        <!-- end of form input -->
 
+        <!-- transaksi -->
         <section class="transactions-section">
           <h2>Transaksi</h2>
+          <div class="filter-container">
+            <input type="text" id="search" placeholder="Cari deskripsi..." />
+            <select id="filter-category">
+              <option value="all">Semua</option>
+              <option value="income">Pemasukan</option>
+              <option value="expense">Pengeluaran</option>
+            </select>
+          </div>
           <ul id="transactions" class="transactions-list"></ul>
         </section>
+        <!-- emd of transaksi -->
       </main>
 
       <footer class="app-footer">

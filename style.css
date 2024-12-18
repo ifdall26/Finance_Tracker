@@ -33,6 +33,7 @@ body {
 .app-header h1 {
   margin: 0;
   font-size: 1.8rem;
+  line-height: 50px;
 }
 
 /* Main Content Styles */
@@ -162,6 +163,21 @@ body {
 .app-footer p {
   margin: 0;
   font-size: 0.9rem;
+}
+
+/* style untuk filter transaksi */
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.filter-container input,
+.filter-container select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 48%;
 }
 
 /* Responsive Styles */
