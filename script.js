@@ -2,17 +2,12 @@ const form = document.getElementById("finance-form");
 const transactionsList = document.getElementById("transactions");
 const balance = document.getElementById("balance");
 
-const searchInput = document.getElementById("search");
-const filterCategory = document.getElementById("filter-category");
-const filterDate = document.getElementById("filter-date");
-const filterMonth = document.getElementById("filter-month");
-
 let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
 // Update UI
 function updateUI() {
   filterTransactions();
-  localStorage.setItem("transactions", JSON.stringify(transactions));
+  renderMonthlyChart();
 }
 
 // Add Transaction
@@ -21,12 +16,15 @@ function addTransaction(e) {
 
   const description = document.getElementById("description").value;
   const amount = parseFloat(document.getElementById("amount").value);
-  const date = new Date().toISOString().split("T")[0]; // Tanggal hari ini
 
   if (description.trim() === "" || isNaN(amount))
     return alert("Masukkan data yang valid!");
 
-  transactions.push({ description, amount, date });
+  transactions.push({
+    description,
+    amount,
+    date: new Date().toISOString(),
+  });
   updateUI();
 
   form.reset();
@@ -38,48 +36,28 @@ function deleteTransaction(index) {
   updateUI();
 }
 
-// Filter and search functionality
+// Filter Transactions
+const searchInput = document.getElementById("search");
+const filterCategory = document.getElementById("filter-category");
+
 function filterTransactions() {
   const searchTerm = searchInput.value.toLowerCase();
   const category = filterCategory.value;
-  const selectedDate = filterDate.value;
-  const selectedMonth = filterMonth.value;
 
-  let filteredTransactions = transactions;
-
-  // Filter by category
-  filteredTransactions = filteredTransactions.filter((transaction) => {
+  const filteredTransactions = transactions.filter((transaction) => {
     const matchesCategory =
       category === "all" ||
       (category === "income" && transaction.amount > 0) ||
       (category === "expense" && transaction.amount < 0);
-    return matchesCategory;
+    const matchesSearch = transaction.description
+      .toLowerCase()
+      .includes(searchTerm);
+    return matchesCategory && matchesSearch;
   });
-
-  // Filter by search term
-  filteredTransactions = filteredTransactions.filter((transaction) =>
-    transaction.description.toLowerCase().includes(searchTerm)
-  );
-
-  // Filter by date
-  if (selectedDate) {
-    filteredTransactions = filteredTransactions.filter(
-      (transaction) => transaction.date === selectedDate
-    );
-  }
-
-  // Filter by month
-  if (selectedMonth) {
-    filteredTransactions = filteredTransactions.filter((transaction) => {
-      const transactionMonth = new Date(transaction.date).getMonth() + 1;
-      return transactionMonth === parseInt(selectedMonth);
-    });
-  }
 
   renderTransactions(filteredTransactions);
 }
 
-// Render transactions to UI
 function renderTransactions(filteredTransactions) {
   transactionsList.innerHTML = "";
   let totalBalance = 0;
@@ -97,14 +75,71 @@ function renderTransactions(filteredTransactions) {
   });
 
   balance.textContent = `Rp ${totalBalance}`;
+  localStorage.setItem("transactions", JSON.stringify(transactions));
 }
 
-// Event Listeners
+// Render Monthly Chart
+function renderMonthlyChart() {
+  const currentYear = new Date().getFullYear();
+  const monthlyData = Array(12).fill(0);
+
+  transactions.forEach((transaction) => {
+    const transactionDate = new Date(transaction.date);
+    if (transactionDate.getFullYear() === currentYear) {
+      const month = transactionDate.getMonth();
+      monthlyData[month] += transaction.amount;
+    }
+  });
+
+  const options = {
+    chart: {
+      type: "bar",
+      height: 350,
+    },
+    series: [
+      {
+        name: "Total Transaksi",
+        data: monthlyData,
+      },
+    ],
+    xaxis: {
+      categories: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "Mei",
+        "Jun",
+        "Jul",
+        "Agu",
+        "Sep",
+        "Okt",
+        "Nov",
+        "Des",
+      ],
+    },
+    yaxis: {
+      title: {
+        text: "Jumlah (Rp)",
+      },
+    },
+    title: {
+      text: `Laporan Bulanan ${currentYear}`,
+      align: "center",
+    },
+  };
+
+  const chart = new ApexCharts(
+    document.querySelector("#monthly-chart"),
+    options
+  );
+  chart.render();
+}
+
+// Add event listeners
 form.addEventListener("submit", addTransaction);
 searchInput.addEventListener("input", filterTransactions);
 filterCategory.addEventListener("change", filterTransactions);
-filterDate.addEventListener("input", filterTransactions);
-filterMonth.addEventListener("change", filterTransactions);
 
 // Initial Render
 updateUI();
